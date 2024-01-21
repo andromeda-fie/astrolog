@@ -1,0 +1,268 @@
+openapi: 3.0.0
+info:
+  title: Astrolog
+  description: Serviço de cadastro e gerenciamento de pilotos espaciais para o Projeto ANDROMEDA.
+  version: 0.1.0
+  contact:
+    email: zoey.spessanha@zeetech.io
+
+servers:
+  - url: https://astrolog.andromeda.com/v1
+    description: Serviço Astrolog API
+
+paths:
+  /pilotos:
+    get:
+      summary: Lista todos os pilotos
+      description: Retorna a listagem completa de pilotod da FIE
+      operationId: listPilots
+      tags:
+        - Pilotos
+      responses:
+        '200':
+          description: Lista de pilotos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Piloto'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Excesso de solicitações (Rate Limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'          
+                  
+    post:
+      summary: Cadastra um novo piloto
+      operationId: addPilot
+      description: Cria e registra um novo piloto na base da FIE
+      tags:
+        - Pilotos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Piloto'
+      responses:
+        '201':
+          description: Piloto criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Piloto'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Excesso de solicitações (Rate Limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        
+  /pilotos/{pilotoId}:
+    get:
+      summary: Retorna um piloto pelo ID
+      description: Busca um Piloto já cadastrado na base da FIE
+      operationId: getPilotById
+      tags:
+        - Pilotos
+      parameters:
+        - name: pilotoId
+          in: path
+          required: true
+          description: ID do piloto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes do piloto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Piloto'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recurso não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Excesso de solicitações (Rate Limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'        
+                
+    put:
+      summary: Atualiza um piloto pelo ID
+      operationId: updatePilotById
+      description: Atualiza dados parciais ou completos de um piloto já cadastrado na FIE
+      tags:
+        - Pilotos
+      parameters:
+        - name: pilotoId
+          in: path
+          required: true
+          description: ID do piloto
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Piloto'
+      responses:
+        '200':
+          description: Piloto atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Piloto'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recurso não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Excesso de solicitações (Rate Limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'        
+                
+    delete:
+      summary: Remove um piloto pelo ID
+      operationId: deletePilotById
+      description: Remove o registro de um Piloto cadastrado na base da FIE
+      tags:
+        - Pilotos
+      parameters:
+        - name: pilotoId
+          in: path
+          required: true
+          description: ID do piloto
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Piloto removido
+        '404':
+          description: Recurso não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Excesso de solicitações (Rate Limit)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Piloto:
+      type: object
+      required:
+        - nome
+        - certificacao
+        - localizacao
+      properties:
+        nome:
+          type: string
+          description: Nome completo do piloto.
+          example: "Han Solo"
+        certificacao:
+          type: string
+          description: Código da certificação do piloto.
+          example: "Cert-00123"
+        localizacao:
+          type: array
+          description: Lista de localizações onde o piloto foi avistado.
+          items:
+            $ref: '#/components/schemas/Localizacao'
+          example:
+            - planeta: "prime"
+              quando: "2024-05-18T15:00:00Z"
+            - planeta: "Marte"
+              quando: "2024-06-20T10:30:00Z"
+    Localizacao:
+      type: object
+      required:
+        - planeta
+        - quando
+      properties:
+        planeta:
+          type: string
+          description: Nome do planeta onde o piloto foi avistado.
+          example: "Terra"
+        quando:
+          type: string
+          format: date-time
+          description: Data e hora de quando o piloto foi avistado no planeta, no formato ISO 8601.
+          example: "2024-05-18T15:00:00Z"
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Mensagem de erro descrevendo o problema.

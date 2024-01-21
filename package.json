@@ -1,0 +1,37 @@
+{
+  "name": "astrolog",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Gerencie o cadastro dos bravos pilotos espaciais. Validação de certificações, registro de informações pessoais e acompanhamento de suas jornadas interplanetárias.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node ./src/main.js",
+    "test": "node --test ./tests/**/*.spec.js",
+    "format": "npx prettier -w .",
+    "lint": "npx eslint --fix .",
+    "format:lint": "npm run lint && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andromeda-fie/astrolog.git"
+  },
+  "author": "zoedsoupe <zoey.spessanha@zeetech.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andromeda-fie/astrolog/issues"
+  },
+  "homepage": "https://github.com/andromeda-fie/astrolog#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "knex": "^3.1.0",
+    "pg": "^8.11.3",
+    "sqlite3": "^5.1.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-functional": "^6.0.0",
+    "prettier": "3.2.4"
+  }
+}
