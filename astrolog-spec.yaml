@@ -14,7 +14,7 @@ paths:
   /pilotos:
     get:
       summary: Lista todos os pilotos
-      description: Retorna a listagem completa de pilotod da FIE
+      description: Retorna a listagem completa de piloto da FIE
       operationId: listPilots
       tags:
         - Pilotos
