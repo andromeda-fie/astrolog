@@ -12,7 +12,7 @@ const swaggerDocument = yaml.parse(file.toString())
 const app = express()
 
 app.use(express.json())
-app.use(router)
+app.use('/v1', router)
 app.use('/docs', swagger.serve, swagger.setup(swaggerDocument));
 
 export { app }
