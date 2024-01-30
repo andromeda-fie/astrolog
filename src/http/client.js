@@ -1,4 +1,5 @@
 import express from 'express'
+import { router } from './router/index.js'
 import swagger from 'swagger-ui-express'
 import path from 'path'
 import fs from 'fs'
@@ -11,6 +12,7 @@ const swaggerDocument = yaml.parse(file.toString())
 const app = express()
 
 app.use(express.json())
+app.use(router)
 app.use('/docs', swagger.serve, swagger.setup(swaggerDocument));
 
 export { app }
