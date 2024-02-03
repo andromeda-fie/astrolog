@@ -7,7 +7,8 @@ info:
     email: zoey.spessanha@zeetech.io
 
 servers:
-  - url: https://astrolog.andromeda.com/v1
+  - url: http://localhost:3000/v1
+  # - url: https://astrolog.andromeda.com/v1
     description: Serviço Astrolog API
 
 paths:
