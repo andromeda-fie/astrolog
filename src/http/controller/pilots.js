@@ -1,3 +1,4 @@
+import { db } from '../../config/database.js'
 import { createPilot } from '../../handlers/pilots/create.js'
 import { findPilotById } from '../../handlers/pilots/find-by-id.js'
 import { listAllPilots } from '../../handlers/pilots/list-all.js'
@@ -9,8 +10,8 @@ import { HttpStatus } from '../constants/http-status.js'
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
-export function listAll(req, res) {
-    const pilots = listAllPilots()
+export async function listAll(req, res) {
+    const pilots = await listAllPilots(db)
 	
     if (pilots.type === 'error') {
         return res.status(HttpStatus.BAD_REQUEST).json(pilots.data)
